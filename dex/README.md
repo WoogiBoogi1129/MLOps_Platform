@@ -30,10 +30,9 @@
 
 1. **스크립트 다운로드**:
    ```bash
-   git clone https://github.com/your-repo/dex-user-add.git
-   cd dex-user-add
+   git clone https://github.com/WoogiBoogi1129/Multi-Cluster-ML-Workload.git
+   cd Multi-Cluster-ML-Workload/dex
    ```
-   (위 명령어에서 `your-repo`를 실제 GitHub 리포지토리 이름으로 변경하세요.)
 
 2. **실행 권한 부여**:
    ```bash
