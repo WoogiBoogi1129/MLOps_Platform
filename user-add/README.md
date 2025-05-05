@@ -55,8 +55,8 @@
 ## 🚀 사용 방법
 
 ```bash
-chmod +x add_rgap_user.sh
-./add_rgap_user.sh
+chmod +x RGAP_add_user.sh
+./RGAP_add_user.sh
 ```
 
 실행 후 다음 정보를 입력해야 합니다:
