@@ -1,100 +1,92 @@
+---
 
-# 🚀 Remote GPU Access Platform with Kubeflow Notebooks
+# 🚀 Remote GPU Access Platform
 
-This project provides a secure and scalable system that enables GPU-less users to remotely run GPU-based experiments using Jupyter Notebooks through a Kubeflow environment. It is designed to address the growing demand for shared GPU access in AI research.
+클라우드 환경에서 GPU 자원을 **동적으로 효율적으로 활용**할 수 있도록 설계된 플랫폼입니다.  
+Kubeflow 기반의 사용자 맞춤형 개발 환경 제공, GPU on-demand 할당, 상태 보존, 자원 스케줄링 등 다양한 기능을 포함합니다.
 
 ---
 
-## 📌 Overview
+## 🧭 프로젝트 개요
 
-High-performance GPUs are essential for modern AI workloads, but access to such resources is often limited. This system solves that problem by allowing users without local GPUs to access shared GPU servers remotely via a web-based Jupyter Notebook interface using Kubeflow Notebooks. It supports isolated multi-user environments with secure authentication, namespace-based resource separation, and pre-assigned GPU resources.
-
----
-
-## 🎯 Key Features
-
-- ✅ **Multi-user GPU access via Jupyter Notebooks**
-- 🔒 **Dex-based secure login with namespace isolation**
-- 🌐 **Remote access through OpenVPN + Istio NodePort**
-- 🎛️ **Static GPU allocation per user (1 GPU per notebook)**
-- 🧪 **Kubeflow v1.19.1 deployed via manifests**
-- 🚀 **Runs on a single-node cluster with 3× NVIDIA TITAN GPUs**
+- **목표**: 다양한 사용자들이 GPU 자원을 손쉽게 활용하면서도, 자원 낭비를 줄이고 시스템 운영 효율을 극대화하는 플랫폼 구축
+- **주요 기능**
+  - Jupyter 기반 GPU 환경 제공
+  - 개발 환경 선택 (PyTorch, TensorFlow 등)
+  - GPU on-demand 할당 및 자동 해제
+  - 사용자 상태(State) 복원 기능
+  - 자원 스케줄링 및 공유 기능
+  - 운영 자동화 및 대시보드 제공
 
 ---
 
-## 🧱 System Architecture
+## 🛠 주요 기술 스택
 
-```text
-[ User PC ] 
-    ↕ (OpenVPN)
-[ Internal Network ]
-    ↕
-[ Istio Ingress Gateway (NodePort) ]
-    ↕
-[ Dex Login ]
-    ↕
-[ Pre-assigned Jupyter Notebook Server ]
-    ↕
-[ GPU-enabled Kubeflow Notebook (1 GPU) ]
-````
----
-
-## ⚙️ Deployment Environment
-
-* **Kubeflow Version**: v1.19.1
-* **Deployment Method**: Manifest-based installation
-* **Cluster Type**: Single-node Kubernetes cluster
-* **GPU Specs**: 3× NVIDIA TITAN D6
-* **Authentication**: Dex (via Istio Ingress Gateway)
-* **Access Method**: External OpenVPN + NodePort
+| 범주       | 기술                         |
+|------------|------------------------------|
+| 클러스터   | Kubernetes, Kubeflow         |
+| 개발 환경 | Jupyter Notebook, PyTorch, TensorFlow |
+| 인프라     | Docker, Dex, PVC, Istio, NVIDIA GPU |
+| 모니터링   | Prometheus, Grafana          |
 
 ---
 
-## 🧑‍💼 User Access Flow
+## 🧩 시스템 아키텍처
 
-1. **VPN 접속**: 사용자는 OpenVPN으로 내부 네트워크에 접근
-2. **웹 로그인**: NodePort로 노출된 `istio-ingressgateway`를 통해 Dex 로그인
-3. **자동 연결**: 사용자에게 할당된 namespace의 Jupyter Notebook으로 자동 연결
-4. **GPU 실험 수행**: 웹에서 실시간 GPU 자원 확인 및 실험 가능
+> 📌 미정
 
----
+- 사용자 흐름
+  1. VPN 접속
+  2. 환경 선택 (Jupyter + PyTorch 등)
+  3. 컨테이너 기반 개발 환경 생성
+  4. GPU 자원 할당 및 작업 수행
+  5. 종료 시 자동 반납 및 상태 저장
 
-## 📓 Sample Jupyter Notebook GPU Test
-
-After login, users can confirm GPU access using:
-
-```python
-!nvidia-smi
-```
-
-Or with PyTorch:
-
-```python
-import torch
-print(torch.cuda.is_available())
-print(torch.cuda.get_device_name(0))
-```
----
-## 🧩 Future Work
-
-* ✅ 실험 로그 수집 및 모니터링 도구 연동 (e.g. Prometheus, Loki)
-* ✅ 사용자별 자원 사용량 시각화 대시보드 제공
-* ✅ 자동 GPU 재할당 및 OOM 대응 기능 추가
+- 관리자 기능
+  - 환경 이미지 등록
+  - 권한 관리 및 자원 모니터링
+  - 사용자 등록 자동화
 
 ---
 
-## 📬 Contact
+## 🗺 프로젝트 로드맵
 
-Maintainer: \[Hwang Tae Uk]
-Email: [taeuk.h@dcn.ssu.ac.kr](mailto:taeuk.h@dcn.ssu.ac.kr)
+### 📌 장기 목표
+
+- [ ] 다양한 개발 환경 UI 선택 기능 구현
+- [ ] GPU 동적 할당 및 자동 반납 기능 개발
+- [ ] 사용자 작업 상태(State) 복원 기능 탑재
+- [ ] GPU 공유 및 스케줄링 기능 개발
+- [ ] 전체 시스템 모니터링 자동화
+
+### 📅 마일스톤
+
+| 기간        | 목표 내용                                      | 진행 상황 |
+|-------------|-----------------------------------------------|-----------|
+| 2025.05     | 실사용 피드백 수집 (테스트 계정 배포)         | ✅ 완료   |
+| 2025.06~07  | 사용자 환경 선택 UI 개발                      | ⏳ 진행 중 |
+| 2025.07~09  | GPU on-demand 할당 및 상태 보존 기능 구현     | ⬜ 예정    |
+| 2025.09~11  | GPU 공유 스케줄링 시스템 PoC                  | ⬜ 예정    |
+| 2025.11~12  | 모니터링 및 자동화 운영 시스템 구축           | ⬜ 예정    |
 
 ---
 
-## 📚 References
+## 🧪 사용자 테스트 계획
 
-* [Kubeflow Notebooks](https://www.kubeflow.org/docs/components/notebooks/)
-* [Dex Authentication](https://dexidp.io/)
-* [Istio Ingress Gateway](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/)
-* [NVIDIA GPU Plugin for Kubernetes](https://github.com/NVIDIA/k8s-device-plugin)
+- **실험 대상**: 권민혜 교수님 소속 학생
+- **실험 환경**: 리눅스 기반 Jupyter Notebook (PyTorch 이미지)
+- **피드백 항목**
+  - 접속 편의성
+  - 개발 환경 사용성
+  - GPU 성능 응답성
+  - 작업 상태 보존 여부
 
-```
+---
+
+## 👥 팀 및 역할
+
+| 이름      | 역할         | 비고               |
+| ------- | ---------- | ---------------- |
+| 황태욱     | PM / 개발 총괄 | 로드맵 관리, 기술 구조 설계 |
+| 김영한 교수님 | 총괄 책임자     | 방향성 조율 및 자문      |
+| 실험 사용자  | 초기 피드백 제공자 | 권민애 교수님 학생 등     |
