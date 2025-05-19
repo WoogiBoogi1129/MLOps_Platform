@@ -45,43 +45,34 @@ Kubeflow 기반의 사용자 맞춤형 개발 환경 제공, GPU on-demand 할�
   - 사용자 등록 자동화
 
 ---
-## 🗺 프로젝트 로드맵
+🚀 로드맵
+Phase 1: 핵심 서비스 환경 구성
+ Kubeflow 기반 Notebook 환경 구축
 
-### 📌 장기 목표 및 세부 단계
+ 사용자 격리를 위한 Namespace/RBAC 설정
 
-#### 1. User Environment Selection UI
-- [x] UI Requirement Analysis
-- [x] UI Design (Wireframe, UX)
-- [ ] Frontend Implementation
-- [ ] UI Testing & Feedback
+ 개발 환경 선택 UI 초안 구현
 
-#### 2. Dynamic GPU Allocation & Auto Release
-- [ ] GPU Binding Research
-- [ ] Idle Detection Module
-- [ ] GPU Release Automation
-- [ ] Integrated Testing
+Phase 2: GPU 동적 할당 및 세션 복원
+ GPU On-Demand 할당 및 자동 해제 로직 구현
 
-#### 3. GPU Sharing and Scheduling
-- [ ] Scheduler Design
-- [ ] Shared GPU Resource Pool Implementation
-- [ ] Conflict Resolution & Policy Tuning
+ 사용자 세션 저장 및 복원 기능 개발
 
-#### 4. GPU Usage Monitoring Automation
-- [ ] Monitoring Metric Design
-- [ ] Prometheus/Grafana Integration
-- [ ] Alert/Automation Workflow
+ UI를 통한 ML 프레임워크 선택 기능 통합
 
----
+Phase 3: 자원 스케줄링 및 공유 기능
+ 우선순위 기반 GPU 스케줄링 정책 도입
 
-### 📅 마일스톤 (2025년 기준)
+ GPU 자원 공유 기능 구현 (MPS 고려)
 
-| 기간        | 목표 내용                                      | 진행 상황 |
-|-------------|-----------------------------------------------|-----------|
-| 05.08~05.15 | UI Requirement & Design                       | ⏳ 진행 중 |
-| 05.15~05.30 | UI Implementation & Feedback                  | ⬜ 예정    |
-| 06.01~06.15 | Dynamic GPU Binding, Idle Detection, Release  | ⬜ 예정    |
-| 06.15~06.29 | GPU Sharing Scheduler & Conflict Policy       | ⬜ 예정    |
-| 06.30~07.14 | Monitoring Automation (Prometheus/Grafana)    | ⬜ 예정    |
+ 사용자 리소스 제한 정책 적용
+
+Phase 4: 모니터링 및 운영 자동화
+ GPU 및 시스템 사용량 모니터링 대시보드 구축
+
+ 비정상 사용 감지 및 사용자 알림 기능 개발
+
+ 운영자용 리소스 통계 및 이력 대시보드 제공
 
 ---
 ## 🧪 사용자 테스트 계획
