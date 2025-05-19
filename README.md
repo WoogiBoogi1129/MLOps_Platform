@@ -17,12 +17,15 @@ Kubeflow 기반의 사용자 맞춤형 개발 환경 제공, GPU on-demand 할�
 ---
 ## 🛠 주요 기술 스택
 
-| 범주       | 기술                         |
-|------------|------------------------------|
-| 클러스터   | Kubernetes, Kubeflow         |
-| 개발 환경 | Jupyter Notebook, VScode, PyTorch, TensorFlow |
-| 인프라     | Docker, Dex, K8s PVC, Istio, NVIDIA GPU |
-| 모니터링   | Prometheus, Grafana          |
+| Category         | Technologies                                               |
+|------------------|------------------------------------------------------------|
+| Cluster Platform | Kubernetes, Kubeflow                                       |
+| Development Tools | Jupyter Notebook, VS Code, Terminal-based Access          |
+| ML Frameworks    | PyTorch, TensorFlow                                        |
+| Infrastructure   | Docker, PersistentVolumeClaim (PVC), Istio, NVIDIA GPU     |
+| Monitoring & Logging | Prometheus, Grafana, Fluentd (optional)                |
+| Authentication & Security | Dex (OIDC), Kubernetes RBAC, (Optional: OPA/Gatekeeper) |
+| Automation       | Kustomize, Argo Workflow (planned), Helm                   |
 
 ---
 ## 🧩 시스템 아키텍처
