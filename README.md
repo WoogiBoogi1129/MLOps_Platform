@@ -7,7 +7,7 @@ Kubeflow 기반의 사용자 맞춤형 개발 환경 제공, GPU on-demand 할�
 
 - **목표**: 다양한 사용자들이 GPU 자원을 손쉽게 활용하면서도, 자원 낭비를 줄이고 시스템 운영 효율을 극대화하는 플랫폼 구축
 - **주요 기능**
-  - Jupyter 기반 GPU 환경 제공
+  - Jupyter, Vscode 기반 GPU 환경 제공
   - 개발 환경 선택 (PyTorch, TensorFlow 등)
   - GPU on-demand 할당 및 자동 해제
   - 사용자 상태(State) 복원 기능
@@ -20,8 +20,8 @@ Kubeflow 기반의 사용자 맞춤형 개발 환경 제공, GPU on-demand 할�
 | 범주       | 기술                         |
 |------------|------------------------------|
 | 클러스터   | Kubernetes, Kubeflow         |
-| 개발 환경 | Jupyter Notebook, PyTorch, TensorFlow |
-| 인프라     | Docker, Dex, PVC, Istio, NVIDIA GPU |
+| 개발 환경 | Jupyter Notebook, VScode, PyTorch, TensorFlow |
+| 인프라     | Docker, Dex, K8s PVC, Istio, NVIDIA GPU |
 | 모니터링   | Prometheus, Grafana          |
 
 ---
@@ -47,8 +47,8 @@ Kubeflow 기반의 사용자 맞춤형 개발 환경 제공, GPU on-demand 할�
 ### 📌 장기 목표 및 세부 단계
 
 #### 1. User Environment Selection UI
-- [ ] UI Requirement Analysis
-- [ ] UI Design (Wireframe, UX)
+- [x] UI Requirement Analysis
+- [x] UI Design (Wireframe, UX)
 - [ ] Frontend Implementation
 - [ ] UI Testing & Feedback
 
@@ -74,11 +74,11 @@ Kubeflow 기반의 사용자 맞춤형 개발 환경 제공, GPU on-demand 할�
 
 | 기간        | 목표 내용                                      | 진행 상황 |
 |-------------|-----------------------------------------------|-----------|
-| 05.20~05.30 | UI Requirement & Design                       | ⏳ 진행 중 |
-| 06.01~06.18 | UI Implementation & Feedback                  | ⬜ 예정    |
-| 06.01~06.27 | Dynamic GPU Binding, Idle Detection, Release  | ⬜ 예정    |
-| 06.18~07.10 | GPU Sharing Scheduler & Conflict Policy       | ⬜ 예정    |
-| 07.01~07.15 | Monitoring Automation (Prometheus/Grafana)    | ⬜ 예정    |
+| 05.08~05.15 | UI Requirement & Design                       | ⏳ 진행 중 |
+| 05.15~05.30 | UI Implementation & Feedback                  | ⬜ 예정    |
+| 06.01~06.15 | Dynamic GPU Binding, Idle Detection, Release  | ⬜ 예정    |
+| 06.15~06.29 | GPU Sharing Scheduler & Conflict Policy       | ⬜ 예정    |
+| 06.30~07.14 | Monitoring Automation (Prometheus/Grafana)    | ⬜ 예정    |
 
 ---
 ## 🧪 사용자 테스트 계획
