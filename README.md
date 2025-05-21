@@ -1,6 +1,6 @@
-# 🚀 Remote GPU Access Platform
+# 🚀 MLOps Platform
 
-The **Remote GPU Access Platform** is designed to enable dynamic and efficient utilization of GPU resources in a cloud-native environment.  
+The **MLOps Platform** is designed to enable dynamic and efficient utilization of GPU resources in a cloud-native environment.  
 Based on Kubeflow, the platform supports user-customized development environments, on-demand GPU allocation, session preservation, resource scheduling, and more.
 
 ---
