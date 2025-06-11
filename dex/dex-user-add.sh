@@ -31,7 +31,17 @@ echo "Generated UUID: $UUID"
 
 # 4. ConfigMap dex -n auth 수정
 CONFIGMAP_FILE="dex_config_temp.yaml"
+
+# ConfigMap을 가져와 임시 파일에 저장
 kubectl get configmap dex -n auth -o yaml > "$CONFIGMAP_FILE"
+
+# 기존에 동일 이메일이 존재하는지 확인
+duplicated_user=$(yq eval ".data.\"config.yaml\" | fromyaml | .staticPasswords[] | select(.email == \"$EMAIL\")" "$CONFIGMAP_FILE")
+if [ -n "$duplicated_user" ]; then
+    echo "User with email $EMAIL already exists in Dex ConfigMap. Aborting."
+    rm "$CONFIGMAP_FILE"
+    exit 1
+fi
 
 # 4.1 staticPasswords에 사용자 정보 추가
 # yq를 사용하여 staticPasswords 배열에 새 사용자 추가
