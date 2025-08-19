@@ -1,7 +1,7 @@
 
 # Dex 사용자 추가 스크립트
 
-이 스크립트(`add_dex_user.sh`)는 Kubeflow 환경에서 Dex 인증 시스템에 새로운 사용자를 추가하는 과정을 자동화합니다. Dex는 OpenID Connect(OIDC) 기반의 인증 서비스로, Kubeflow에서 사용자 인증을 담당합니다. 이 스크립트를 사용하면 명령줄에서 간단한 입력만으로 새 사용자를 등록하고, Dex 설정을 업데이트할 수 있습니다.
+이 스크립트(`dex-user-add.sh`)는 Kubeflow 환경에서 Dex 인증 시스템에 새로운 사용자를 추가하는 과정을 자동화합니다. Dex는 OpenID Connect(OIDC) 기반의 인증 서비스로, Kubeflow에서 사용자 인증을 담당합니다. 이 스크립트를 사용하면 명령줄에서 간단한 입력만으로 새 사용자를 등록하고, Dex 설정을 업데이트할 수 있습니다.
 
 ## 스크립트 역할
 
@@ -36,12 +36,12 @@
 
 2. **실행 권한 부여**:
    ```bash
-   chmod +x add_dex_user.sh
+   chmod +x dex-user-add.sh
    ```
 
 3. **스크립트 실행**:
    ```bash
-   ./add_dex_user.sh
+   ./dex-user-add.sh
    ```
 
 4. **사용자 정보 입력**:
