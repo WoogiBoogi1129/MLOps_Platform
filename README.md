@@ -35,6 +35,45 @@ Based on Kubeflow, the platform supports user-customized development environment
 ## 🧩 System Architecture
 
 > 📌 Detailed architecture documentation is in progress. Below is a high-level user flow.
+                           ┌───────────────────────────── Control / Mgmt Cluster (Private DC, HA) ──────────────────────────────┐
+ Git (Infra+Apps) ───────▶ │  Argo CD (App-of-Apps, GitOps)   Dex/IdP (OIDC SSO)   Vault+ESO   Thanos/Grafana   Kubecost       │
+                           │  Karmada APIServer/CM/Scheduler + Webhooks (ResourceInterpreter)   Policy/OPA (opt)             │
+                           └───────────────▲───────────────────────────────▲───────────────────────────────▲────────────────────┘
+                                           │                               │                               │ mTLS
+                              Karmada Control-Plane                         │                               │
+                                           │                               │                               │
+                   ┌───────────────────────┴──────────────────────┐        │                    ┌──────────┴───────────────────┐
+                   │                 Private GPU Cluster          │        │                    │         Public GPU Cluster   │
+                   │ (On-Prem: V100 / TITAN D6 / A30 / 6000 SE)  │        │                    │   (Cloud: A100/H100 etc.)   │
+                   │                                              │        │                    │                              │
+   Users ──HTTPS──▶│  Ingress/Gateway + OIDC (Dex)                │        │                    │  Ingress/Gateway + OIDC     │
+ (Jupyter/VSCode)  │  Kubeflow UI (Notebook Server = CPU only)    │        │                    │  (옵션) 경량 Kubeflow UI     │
+                   │  K8s API + Karmada Agent                     │        │                    │  K8s API + Karmada Agent    │
+                   │                                              │        │                    │                              │
+                   │  Kueue: LocalQueue/ClusterQueue              │◀───────┼──────── Job CRDs ─▶│  Kueue: LocalQueue/CQ       │
+                   │  ResourceFlavor: gpu-bronze/silver/gold      │        │   (PyTorchJob/     │  ResourceFlavor: gpu-gold   │
+                   │  NVIDIA GPU Operator + DCGM Exporter         │        │    TFJob/Job)      │  NVIDIA GPU Operator        │
+                   │  NFD/GFD → nodeLabels(gpu.tier, chip, mem)   │        │                    │  NFD/GFD labels             │
+                   │                                              │        │                    │                              │
+                   │  Storage (RWX Home) : NFS/CephFS             │        │                    │  Storage: EBS/PD + S3/GCS   │
+                   │  Object Store (Data/Artifacts): MinIO (S3)   │◀──Replicate/Sync──▶ Cloud Object Storage (S3/GCS)         │
+                   │  (venv/whl cache PVC for kernels)            │        │                    │  (Artifacts/ckpt mirror)    │
+                   │                                              │        │                    │                              │
+                   │  Service Mesh: Istio or Cilium Mesh          │◀─── mTLS / Multi-Cluster ─▶│  Service Mesh (federated)   │
+                   │                                              │        │                    │                              │
+                   │  Serving: KServe/vLLM/Ray Serve              │◀── Global LB/GeoDNS ──────▶│  Serving (edge/HA/burst)    │
+                   │                                              │                             │                              │
+                   └──────────────────────────────────────────────┘                             └──────────────────────────────┘
+
+
+[사용 흐름]
+1) 사용자는 Private의 Kubeflow 포털에 로그인(SSO). Notebook Server는 CPU 전용으로 상시 가동.
+2) 노트북에서 셀 실행 → “GPU Job” 제출(템플릿에 등급/수량/예산/마감 옵션 주입).
+3) Karmada가 Job을 Private 우선 전파(필요 시 퍼블릭도 후보). OverridePolicy로 클러스터별 nodeSelector/SC 주입.
+4) 각 클러스터의 Kueue가 ResourceFlavor(gpu-bronze/silver/gold)로 실제 슬롯 할당. 임계(지연/예산/DDL) 시 Public으로 버스트.
+5) Job Pod는 실행 후 결과/아티팩트를 MinIO/S3에 저장하고 종료(서버리스). Notebook은 결과를 스트리밍/수집.
+6) 서빙은 KServe/vLLM을 Private+Public에 분산 배치, Mesh/GeoDNS로 지역별 라우팅.
+7) 관측성: Prometheus→Thanos, Loki/Tempo, DCGM, Kubecost로 대기/실행/비용/활용률 가시화.
 
 - **User Flow**
   1. Connect via VPN
