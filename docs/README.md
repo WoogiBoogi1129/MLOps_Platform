@@ -1,4 +1,3 @@
-```markdown
 # ML Platform: Multi-Cloud Initial Architecture
 
 > 🚀 멀티클라우드 환경(Private + Public Cloud)에 구축하는 **ML Platform 초기 아키텍처 디자인**  
@@ -16,8 +15,6 @@
 ---
 
 ## 🏗 전체 구조도 (Text-based)
-
-```
 
 ┌────────────────────────────── Control / Mgmt Cluster (Private DC, HA) ──────────────────────────────┐
 │  • Karmada (APIServer/CM/Scheduler, Webhooks/ResourceInterpreter)                                    │
@@ -40,8 +37,6 @@
 │  • Serving: KServe / vLLM / RayServe │◀── Mesh/GeoDNS ────────▶                 │  Serving: KServe / vLLM / RayServe   │
 │  • Service Mesh: Istio/Cilium (mTLS) │                                         │  Service Mesh: Istio/Cilium (mTLS)  │
 └──────────────────────────────────────┘                                         └──────────────────────────────────────┘
-
-```
 
 ---
 
@@ -96,4 +91,3 @@
 - [Kubecost](https://www.kubecost.com/)  
 
 ---
-```
